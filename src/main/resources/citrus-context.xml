@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:citrus="http://www.citrusframework.org/schema/config"
+       xmlns:citrus-selenium="http://www.citrusframework.org/schema/selenium/config"
+       xmlns:selenium="http://www.citrusframework.org/schema/selenium/testcase"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.citrusframework.org/schema/config http://www.citrusframework.org/schema/config/citrus-config.xsd
+       http://www.citrusframework.org/schema/selenium/config http://www.citrusframework.org/schema/selenium/config/citrus-selenium-config.xsd
+       http://www.citrusframework.org/schema/selenium/testcase http://www.citrusframework.org/schema/selenium/testcase/citrus-selenium-testcase.xsd
+       ">
+
+    <context:property-placeholder location="classpath:default.properties"/>
+    <citrus:global-variables>
+        <citrus:file path="classpath:default.properties"/>
+    </citrus:global-variables>
+
+    <citrus-selenium:browser id="seleniumBrowser"
+                             type="chrome"
+                             timeout="60000"
+                             start-page="${url}"/>
+
+    <citrus:before-test id="setup">
+        <citrus:actions>
+            <selenium:start browser="seleniumBrowser"/>
+        </citrus:actions>
+    </citrus:before-test>
+
+    <citrus:after-test id="stop">
+        <citrus:actions>
+            <selenium:stop browser="seleniumBrowser"/>
+        </citrus:actions>
+    </citrus:after-test>
+
+</beans>
+
